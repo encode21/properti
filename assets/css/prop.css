@@ -1,0 +1,15 @@
+/***
+Import fonts
+***/
+
+.pemasaran {
+    background-image: url('../img/pemasaran.png');
+}
+
+.planning {
+    background-image: url('../img/planning.png');
+}
+
+.keuangan {
+    background-image: url('./assets/img/keuangan.png');
+}
