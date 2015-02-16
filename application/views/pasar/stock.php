@@ -71,8 +71,8 @@
 							<div class="control-group">
 								<label class="control-label" >NDR<span class="required">*</span></label>
 								<div class="controls">
-									<select class="span6 m-wrap" name="ndr" id="stNDR">
-										<option value="">Pilih NDR ...</option>
+									<select class="span6 m-wrap" name="ndr" id="stNDRM">
+										<option value="-1">Semua NDR ...</option>
 									</select>
 								</div>
 							</div>

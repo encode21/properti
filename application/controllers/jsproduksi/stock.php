@@ -72,6 +72,28 @@ class Stock extends CI_Controller {
 		echo "cek";
 	}
 	
+	public function rNdrJ()	{
+		try {
+			$p = $this->input->get("p");
+			$t = $this->input->get("t");
+			$n = $this->input->get("n")?:'';
+			
+			$jsonResult = array(
+				'success' => true,
+				//'rows' => $this->mstock->get_ndr_house(1,15,'JAB/AA/2')
+				'rows' => $this->mstock->get_ndr_judul($p,$t,$n)
+			);
+		}
+		catch (Exception $e){
+			$jsonResult = array(
+				'success' => false,
+				'message' => $e->getMessage()
+			);	
+		}
+		
+		echo json_encode($jsonResult);
+	}
+	
 	//*
 	public function gndrA()	{
 		

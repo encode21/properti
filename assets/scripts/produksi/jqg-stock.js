@@ -73,7 +73,7 @@ var StockAdvanced = function () {
 			//*/
 		});
 
-		$("#jqStockML").jqGrid({
+		$("#jqStockL").jqGrid({
 			//url: 'index.php/jsproduksi/proyek/rproduk.html',
 			url: '',
 			datatype: "json",
@@ -145,8 +145,8 @@ var StockAdvanced = function () {
 			$("#jqStockL").setGridWidth($('.portlet-body').width());
 		}).trigger('resize');
 
-		$("#jqStockML").jqGrid('setFrozenColumns');
-		$("#jqStockML").jqGrid('navGrid',"#jqStockPagerML",{edit:false,add:false,del:false});
+		$("#jqStockL").jqGrid('setFrozenColumns');
+		$("#jqStockL").jqGrid('navGrid',"#jqStockPagerL",{edit:false,add:false,del:false});
 		/*
 		$('#jqStockL').setGroupHeaders({
 			useColSpanStyle: true,
@@ -157,7 +157,7 @@ var StockAdvanced = function () {
 		//*/
 		
 		//*
-		$("#jqStockMH").jqGrid({
+		$("#jqStockH").jqGrid({
 			//url: 'index.php/jsproduksi/proyek/rproyek.html',
 			url: '',
 			datatype: "json",
@@ -218,11 +218,11 @@ var StockAdvanced = function () {
 		});
 
 		$(window).bind('resize', function() {
-			$("#jqStockMH").setGridWidth($('.portlet-body').width());
+			$("#jqStockH").setGridWidth($('.portlet-body').width());
 		}).trigger('resize');
 
-		$("#jqStockMH").jqGrid('setFrozenColumns');
-		$("#jqStockMH").jqGrid('navGrid',"#jqStockPagerMH",{edit:false,add:false,del:false});
+		$("#jqStockH").jqGrid('setFrozenColumns');
+		$("#jqStockH").jqGrid('navGrid',"#jqStockPagerMH",{edit:false,add:false,del:false});
 		//*/
 	}
 

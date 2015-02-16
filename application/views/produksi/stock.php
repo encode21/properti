@@ -40,8 +40,6 @@
 								<div class="controls">
 									<select class="span6 m-wrap" name="produk" id="stProduk">
 										<option value="">Pilih Tipe Produk ...</option>
-										
-										
 									</select>
 								</div>
 							</div>

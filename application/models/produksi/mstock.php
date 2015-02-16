@@ -39,6 +39,18 @@ class Mstock extends CI_Model {
 		return $query->result();
 	}
 	
+	function get_ndr_judul($pr,$tp,$ndr)	{
+		//echo "pr: $pr, tp: $tp, ndr: $ndr<br/>";
+		$sf = $pr?"WHERE nh.house in (SELECT id FROM house h WHERE h.lok=$pr)":"";
+		$sf = (intval($tp)>0)?"WHERE nh.house in ($tp)":$sf;	
+		$sf = ($ndr!=='')?"WHERE nh.ndr like '%$ndr%'":$sf;
+
+		$sql =	"SELECT id,ndr FROM ndr_house nh $sf";
+		
+		//echo "sql: $sql<br/>";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
 	
 
 

@@ -1,7 +1,6 @@
 var StockMAdvanced = function () {
 
     var initTableProdukM = function() {
-		var lastSel;
 		
 		function scrInpUser()	{
 			$('html, body').animate({
@@ -33,11 +32,11 @@ var StockMAdvanced = function () {
 		}
 		
 		function isiStockM(p,t,n)	{
-			console.log("masuk isiStockM");
+			console.log("masuk isiStockM p:"+p+", t: "+t+", n: "+n);
 			$("#jqStockML").jqGrid('setGridParam', {
-					url: "index.php/jsproduksi/stock/gndrA.html?p="+p+'&t='+t+'&n='+n,
-					datatype: "json"
-				}).trigger("reloadGrid");
+				url: "index.php/jsproduksi/stock/gndrA.html?p="+p+'&t='+t+'&n='+n,
+				datatype: "json"
+			}).trigger("reloadGrid");
 		}
 		
 		function cariProyek(d)	{
@@ -53,18 +52,15 @@ var StockMAdvanced = function () {
 			$("#jqProdukML tbody:first").empty().append(trf);
 			
 			var l = jQuery.parseJSON(d).house;
-			console.log(l);
+			//console.log(l);
 			$('#stProdukM').find('option').remove().end()
 				.append('<option value="-1">Semua Tipe Produk</option>');
 
 			for (var i=0; i<l.length; i++)	{
 				$('#stProdukM').find('option').end()
-					.append('<option value="'+l[i].id+'">'+l[i].model+' tipe '+l[i].tipe+'</option>');
+					.append('<option value="'+l[i].hid+'">'+l[i].model+' tipe '+l[i].tipe+'</option>');
 			}
-			
-			
-			
-			
+
 			
 			/*
 			for (var i=0; i<l.length; i++)	{
@@ -84,54 +80,49 @@ var StockMAdvanced = function () {
 			//btnSimpanGantiProduk(o.jml);
 		}
 		
-		function buatDefaultProduk()	{
-			//var o = jQuery.parseJSON(d).rows[0];
-			var jml = $("input[name='jml']").val();
-			var tp = $("select[name='tprod']").val();
-			var lok = $("select[name='proyek']").val();
+		function isiNDRM(d)	{
+			var o = jQuery.parseJSON(d).rows;
 			
-			if (tp==1)	{		// LANDED HOUSE
-				var par = {
-					initdata: {
-						lok: lok,
-						mdl:(tp==1)?1:2, 
-						model:(tp==1)?"LANDED HOUSE":"HIGHRISE", 
-						jenis:1, 
-						jml:0, 
-						ltnh:0, 
-						lbang:0,
-						tipe1:1
-					},
-					position:"first",
-					useDefValues: false,
-					useFormatter: false
-				}
-				var gridL = $("#jqProdukL");
-				for (var i=0; i<jml; i++)	{
-					gridL.jqGrid('addRow',par);
-				}
-				for (var i=0; i<jml; i++)	{
-					gridL.jqGrid('saveRow',gridL.jqGrid('getDataIDs')[i]);
-				}
-			}
-			if (tp==2)	{		// HIGH RISE
-				var gridH = $("#jqProdukH");
-				for (var i=0; i<jml; i++)	{
-					gridH.jqGrid('addRow',par);
-				}
-				for (var i=0; i<jml; i++)	{
-					gridH.jqGrid('saveRow',gridH.jqGrid('getDataIDs')[i]);
+			if (o.length>0)	{
+				$('#stNDRM').find('option').remove().end()
+					.append('<option value="-1">Semua NDR ...</option>');
+
+				for (var i=0; i<o.length; i++)	{
+					$('#stNDRM').find('option').end()
+						.append('<option value="'+o[i].id+'">'+o[i].ndr+'</option>');
 				}
 			}
 		}
-		
+
 		function pilihCell(row, col, isi, e)	{
 			console.log("row: "+row+",col: "+col+", isi:"+isi);
 		}
 
 		//$('.portlet .portlet-body form .control-group .controls select').change(function (e) {$('.portlet .portlet-body form .control-group .controls select').change(function (e) {
-		$('#pilProyekM').change(function (e) {
+		$('#stProdukM').change(function (e) {
+			e.preventDefault();
+			var pry = $("select[name='proyek']").val();
+			var prd = $("select[name='produk']").val();
+			//console.log($("select[name='produk']"));
+			
+			//*
+			$.ajax({
+				type: "GET",
+				cache: false,
+				url: "index.php/jsproduksi/stock/rndrJ.html?p="+pry+"&t="+prd,
+				//dataType: "html",
+				success: isiNDRM,
+				error: function(xhr, ajaxOptions, thrownError)	{
+					alert("gagal");
+				},
+				async: false
+			});
+			//*/
+			isiStockM(pry,prd,'');
+		});
 		
+		
+		$('#pilProyekM').change(function (e) {
 			e.preventDefault();
 			var prd = $("select[name='proyek']").val();
 			$.ajax({
@@ -171,8 +162,6 @@ var StockMAdvanced = function () {
 			}
 			//*/
         });
-
-		
         
         $('.portlet .portlet-body form .control-group .controls a .green').click(function (e) {
             e.preventDefault();
