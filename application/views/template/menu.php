@@ -5,13 +5,31 @@
 					<span class="selected"></span>
 					</a>
 				</li>
-				
+				<li >
+					<a href="javascript:;">
+					<i class="icon-cogs"></i> 
+					<span class="title">Pemasaran</span>
+					<span class="selected"></span>
+					<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li>
+							<a class="ajaxify" href="pasar/stock.html">Info Stock</a>
+						</li>
+						<li>
+							<a class="ajaxify" href="pasar/pembeli.html">Input Pembeli</a>
+						</li>
+						<li>
+							<a class="ajaxify" href="pasar/booking.html">Info Booking</a>
+						</li>
+					</ul>
+				</li>
 				<li >
 					<a href="javascript:;">
 					<i class="icon-cogs"></i> 
 					<span class="title">Produksi</span>
 					<span class="selected"></span>
-					<span class="arrow open"></span>
+					<span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
 						<li>
@@ -44,7 +62,7 @@
 					<a href="javascript:;">
 					<i class="icon-cogs"></i> 
 					<span class="title">Master Data</span>
-					<span class="selected"></span>
+					<!--span class="selected"></span-->
 					<span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
@@ -65,7 +83,7 @@
 					<i class="icon-cogs"></i> 
 					<span class="title">Perencanaan</span>
 					<span class="selected"></span>
-					<span class="arrow open"></span>
+					<span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
 						<li>
