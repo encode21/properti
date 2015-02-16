@@ -14,13 +14,13 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a class="ajaxify" href="pasar/stock.html">Info Stock</a>
+							<a class="ajaxify" href="index.php/pasar/stock.html">Info Stock</a>
 						</li>
 						<li>
-							<a class="ajaxify" href="pasar/pembeli.html">Input Pembeli</a>
+							<a class="ajaxify" href="index.php/pasar/pembeli.html">Input Pembeli</a>
 						</li>
 						<li>
-							<a class="ajaxify" href="pasar/booking.html">Info Booking</a>
+							<a class="ajaxify" href="index.php/pasar/booking.html">Info Booking</a>
 						</li>
 					</ul>
 				</li>

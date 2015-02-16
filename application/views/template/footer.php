@@ -53,6 +53,8 @@
 	
 	<script type="text/javascript" src="<?php echo $base_url ?>assets/scripts/plan/jqg-nrumah.js" ></script>
 	<script type="text/javascript" src="<?php echo $base_url ?>assets/scripts/plan/jqg-rumah.js" ></script>
+	
+	<script type="text/javascript" src="<?php echo $base_url ?>assets/scripts/pasar/jqg-stock.js" ></script>
 	<script src="<?php echo $base_url ?>assets/scripts/app.js" type="text/javascript" ></script>
 	<script>
 		jQuery(document).ready(function() {    

@@ -1,28 +1,72 @@
-var StockAdvanced = function () {
+var StockMAdvanced = function () {
 
-    var initTableStock = function() {
+    var initTableProdukM = function() {
+		var lastSel;
 		
-		function isiProduk(d)	{
-			//console.log(jQuery.parseJSON(d).rows);
-			var o = jQuery.parseJSON(d).rows;
-			$('#stProduk').find('option').remove().end()
-				.append('<option value="">Pilih Tipe Produk ...</option>');
-				//.val('whatever')
-
-			for (var i=0; i<o.length; i++)	{
-				$('#stProduk').find('option').end()
-				.append('<option value="'+o[i].id+'">'+o[i].jdl+'</option>');
+		function scrInpUser()	{
+			$('html, body').animate({
+				scrollTop: $(".ptInputnya").offset().top
+			}, 200);
+		}
+		
+		function hideBtnInput()	{
+			$('div .form-actions .blue').addClass("hide");
+			$('div .form-actions .green').addClass("hide");
+		}
+		
+		function showCssInputTabel()	{
+			var el1 = jQuery(this).closest(".pdTabelnya").children(".portlet-body");
+            if ($('.pdTabelnya a').hasClass("collapse")) {
+                el1.slideUp(200);
+            }
+		}
+		
+		function btnSimpanGantiProduk(jml)	{
+			if (jml>0)	{
+				$('#savePrd').addClass("hide");
+				$('#chgPrd').removeClass("hide");
+			}
+			else {
+				$('#chgPrd').addClass("hide");
+				$('#savePrd').removeClass("hide");
 			}
 		}
 		
-		function isiNdr(d)	{
-			console.log(d);
-			var l = jQuery.parseJSON(d).rows;
-			var gridL = $("#jqStockL");
+		function isiStockM(p,t,n)	{
+			console.log("masuk isiStockM");
+			$("#jqStockML").jqGrid('setGridParam', {
+					url: "index.php/jsproduksi/stock/gndrA.html?p="+p+'&t='+t+'&n='+n,
+					datatype: "json"
+				}).trigger("reloadGrid");
+		}
+		
+		function cariProyek(d)	{
+			var o = jQuery.parseJSON(d).rows[0];
+			$("input[name='almt']").val(o.almt);
+			$("input[name='cab']").val(o.cab);
 			
-			var trf = $("#jqStockL tbody:first tr:first")[0];
-			$("#jqStockL tbody:first").empty().append(trf);
+			//var pro = $("select[name='proyek'] option:selected").text();
+			//$('.portlet .portlet-title .caption').val("<i class='icon-reorder'></i>"+pro);
+			//alert($("select[name='proyek'] option:selected").text());
 			
+			var trf = $("#jqProdukL tbody:first tr:first")[0];
+			$("#jqProdukML tbody:first").empty().append(trf);
+			
+			var l = jQuery.parseJSON(d).house;
+			console.log(l);
+			$('#stProdukM').find('option').remove().end()
+				.append('<option value="-1">Semua Tipe Produk</option>');
+
+			for (var i=0; i<l.length; i++)	{
+				$('#stProdukM').find('option').end()
+					.append('<option value="'+l[i].id+'">'+l[i].model+' tipe '+l[i].tipe+'</option>');
+			}
+			
+			
+			
+			
+			
+			/*
 			for (var i=0; i<l.length; i++)	{
 				var parL = {
 					initdata: l[i],
@@ -36,43 +80,127 @@ var StockAdvanced = function () {
 			for (var i=0; i<l.length; i++)	{
 				gridL.jqGrid('saveRow',gridL.jqGrid('getDataIDs')[i]);
 			}
+			//*/
+			//btnSimpanGantiProduk(o.jml);
+		}
+		
+		function buatDefaultProduk()	{
+			//var o = jQuery.parseJSON(d).rows[0];
+			var jml = $("input[name='jml']").val();
+			var tp = $("select[name='tprod']").val();
+			var lok = $("select[name='proyek']").val();
+			
+			if (tp==1)	{		// LANDED HOUSE
+				var par = {
+					initdata: {
+						lok: lok,
+						mdl:(tp==1)?1:2, 
+						model:(tp==1)?"LANDED HOUSE":"HIGHRISE", 
+						jenis:1, 
+						jml:0, 
+						ltnh:0, 
+						lbang:0,
+						tipe1:1
+					},
+					position:"first",
+					useDefValues: false,
+					useFormatter: false
+				}
+				var gridL = $("#jqProdukL");
+				for (var i=0; i<jml; i++)	{
+					gridL.jqGrid('addRow',par);
+				}
+				for (var i=0; i<jml; i++)	{
+					gridL.jqGrid('saveRow',gridL.jqGrid('getDataIDs')[i]);
+				}
+			}
+			if (tp==2)	{		// HIGH RISE
+				var gridH = $("#jqProdukH");
+				for (var i=0; i<jml; i++)	{
+					gridH.jqGrid('addRow',par);
+				}
+				for (var i=0; i<jml; i++)	{
+					gridH.jqGrid('saveRow',gridH.jqGrid('getDataIDs')[i]);
+				}
+			}
+		}
+		
+		function pilihCell(row, col, isi, e)	{
+			console.log("row: "+row+",col: "+col+", isi:"+isi);
 		}
 
-		$('#stProyek').change(function (e) {
+		//$('.portlet .portlet-body form .control-group .controls select').change(function (e) {$('.portlet .portlet-body form .control-group .controls select').change(function (e) {
+		$('#pilProyekM').change(function (e) {
+		
 			e.preventDefault();
-			var pry = $("select[name='proyek']").val();
+			var prd = $("select[name='proyek']").val();
 			$.ajax({
 				type: "GET",
 				cache: false,
-				url: "index.php/jsproduksi/stock/rtipeprd.html?id="+pry,
+				url: "index.php/jsproduksi/produk/rproyek.html?id="+prd,
 				//dataType: "html",
-				success: isiProduk,
+				success: cariProyek,
 				error: function(xhr, ajaxOptions, thrownError)	{
 					alert("gagal");
 				},
 				async: false
 			});
+			isiStockM(prd,-1,'');
 		});
+		//*		// bisa dibuang
+		$('.portlet .portlet-body form .control-group .controls .cProduk').click(function (e) {
+            e.preventDefault();
+            
+            var prd = $("select[name='proyek']").val();
+            if (!prd)	{
+				alert("Pilih Nama Proyek !");
+			}
+			/*
+			else {
+				$.ajax({
+					type: "GET",
+					cache: false,
+					url: "index.php/jsproduksi/produk/rproyek.html?id="+prd,
+					//dataType: "html",
+					success: cariProyek,
+					error: function(xhr, ajaxOptions, thrownError)	{
+						alert("gagal");
+					},
+					async: false
+				});
+			}
+			//*/
+        });
+
 		
-		$('#stProduk').change(function (e) {
-			e.preventDefault();
-			var prd = $("select[name='produk']").val();
-			//alert(pry+", jml: "+prd.length);
-			//*
-			$.ajax({
+        
+        $('.portlet .portlet-body form .control-group .controls a .green').click(function (e) {
+            e.preventDefault();
+            
+            var jml = $("input[name='jml']").val();
+            if (jml)	{
+				alert("Pilih Nama Proyek !");
+				
+			}
+			else {
+				alert("josss "+jml);
+				
+			}
+            /*
+            $.ajax({
 				type: "GET",
 				cache: false,
-				url: "index.php/jsproduksi/stock/rndr.html?id="+prd,
+				url: "index.php/jsproduksi/produk/rproyek.html?id="+prd,
 				//dataType: "html",
-				success: isiNdr,
+				success: cariProyek,
 				error: function(xhr, ajaxOptions, thrownError)	{
 					alert("gagal");
 				},
 				async: false
 			});
 			//*/
-		});
-
+        });
+	
 		$("#jqStockML").jqGrid({
 			//url: 'index.php/jsproduksi/proyek/rproduk.html',
 			url: '',
@@ -142,7 +270,7 @@ var StockAdvanced = function () {
 		});
 
 		$(window).bind('resize', function() {
-			$("#jqStockL").setGridWidth($('.portlet-body').width());
+			$("#jqStockML").setGridWidth($('.portlet-body').width());
 		}).trigger('resize');
 
 		$("#jqStockML").jqGrid('setFrozenColumns');
@@ -223,7 +351,6 @@ var StockAdvanced = function () {
 
 		$("#jqStockMH").jqGrid('setFrozenColumns');
 		$("#jqStockMH").jqGrid('navGrid',"#jqStockPagerMH",{edit:false,add:false,del:false});
-		//*/
 	}
 
     return {
@@ -235,7 +362,7 @@ var StockAdvanced = function () {
                 return;
             }
 			//*/
-            initTableStock();
+            initTableProdukM();
 		}
     };
 

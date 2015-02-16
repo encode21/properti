@@ -45,6 +45,9 @@ class Stock extends CI_Controller {
 	public function rndr()	{
 		$kode = $this->input->get("id");
 		$d = explode('d',$kode);
+		if (count($d)!=2)	{
+			return;
+		}
 		//print_r($d);
 		//*
 		try {
@@ -65,7 +68,34 @@ class Stock extends CI_Controller {
 		//*/
 	}
 	
+	public function index()		{
+		echo "cek";
+	}
 	
+	//*
+	public function gndrA()	{
+		
+		try {
+			$p = $this->input->get("p");
+			$t = $this->input->get("t");
+			$n = $this->input->get("n")?:'';
+			
+			$jsonResult = array(
+				'success' => true,
+				//'rows' => $this->mstock->get_ndr_house(1,15,'JAB/AA/2')
+				'rows' => $this->mstock->get_ndr_house($p,$t,$n)
+			);
+		}
+		catch (Exception $e){
+			$jsonResult = array(
+				'success' => false,
+				'message' => $e->getMessage()
+			);	
+		}
+		
+		echo json_encode($jsonResult);
+	}
+	//*/
 	// -------------------------------------
 	
 	public function rproyek()	{
